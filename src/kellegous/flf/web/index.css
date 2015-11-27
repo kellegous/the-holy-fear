@@ -1,0 +1,31 @@
+body {
+  font-family: 'EB Garamond', serif;
+}
+
+#content {
+  width: 1025px;
+  margin: 0 auto;
+}
+
+.book > .name {
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.verse {
+  margin-bottom: 10px;
+}
+
+.left {
+  width: 500px;
+  margin-right: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.right {
+  width: 500px;
+  display: inline-block;
+  vertical-align: top;
+}

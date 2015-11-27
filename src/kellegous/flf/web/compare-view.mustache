@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compare View</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="index.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=EB+Garamond'
+          rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700'
+          rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div id="content">
+{{#books}}
+    <div class="book">
+        <div class="name left">
+            {{lName}}
+        </div>
+        <div class="name right">
+            {{rName}}
+        </div>
+
+        {{#verses}}
+            <div class="verse">
+                <div class="left">
+                    {{number}}
+                    {{#lVerse}}<span>{{text}}</span>{{/lVerse}}
+                </div>
+                <div class="right">
+                    {{number}}
+                    {{#rVerse}}<span>{{text}}</span>{{/rVerse}}
+                </div>
+            </div>
+        {{/verses}}
+    </div>
+{{/books}}
+</div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+body {
+  font-family: 'EB Garamond', serif;
+  font-size: 12pt;
+  line-height: 18pt;
+  color: #222;
+}
+
+.page {
+  width: 800px;
+  min-height: 1000px;
+  box-sizing: border-box;
+  padding: 50px 20px;
+  border: 1px solid #eee;
+  margin: 20px auto;
+  line-height: 1.5;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.cols {
+  -webkit-column-count: 2;
+  -webkit-column-gap: 1em;
+  -moz-column-count: 2;
+  -moz-column-gap: 1em;
+}
+
+.verse-num {
+  font-size: 80%;
+  vertical-align: super;
+  line-height: 0;
+}
+
+.verse-txt {
+  padding-right: 0.5em;
+}
+
+.verse-txt:hover {
+  background-color: #ff0;
+}
+
+.chapter-num {
+  font-family: 'Lato', sans-serif;
+  float: left;
+  font-size: 36pt;
+  line-height: 18pt;
+  vertical-align: text-bottom;
+  margin: 0.3em 0.1em 0.1em 0;
+}
+
+.chapter-name {
+  font-family: 'Lato', sans-serif;
+  color: #666;
+  text-align: center;
+  font-size: 18pt;
+  line-height: 24pt;
+}
+
+.chapter-end {
+  margin-bottom: 72pt;
+}
+
+h2 {
+  font-family: 'Lato', sans-serif;
+  font-size: 18pt;
+  text-align: center;
+  margin: 10em 0 2em 0;
+}

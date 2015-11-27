@@ -1,0 +1,36 @@
+<project name="relig" default="build" xmlns:ivy="antlib:org.apache.ivy.ant">
+  <property name="jarjar.jar" value="jarjar.jar"/>
+  <property name="dep.jar" value="dep.jar" />
+  <property name="app.jar" value="app.jar" />
+
+  <target name="compile">
+    <path id="compile.classpath">
+      <fileset dir="dst" includes="dep.jar"/>
+    </path>
+
+    <mkdir dir="dst/classes"/>
+    <javac srcdir="src" destdir="dst/classes">
+      <classpath refid="compile.classpath" />
+    </javac>
+    <copy todir="dst/classes">
+      <fileset dir="src" includes="**/*.mustache,**/*.css,**/*.js" />
+    </copy>
+  </target>
+
+  <target name="app.jar" depends="compile">
+    <jar destfile="${app.jar}" basedir="dst/classes" />
+  </target>
+
+  <target name="dep.jar">
+    <taskdef name="jarjar"
+      classname="com.tonicsystems.jarjar.JarJarTask"
+      classpath="${jarjar.jar}" />
+    <jarjar jarfile="${dep.jar}">
+      <% for jar in jars %>
+      <zipfileset excludes="META-INF/**/*" src="<%= jar %>"/>
+      <% end %>
+    </jarjar>
+  </target>
+
+  <target name="all" depends="app.jar, dep.jar" />
+</project>

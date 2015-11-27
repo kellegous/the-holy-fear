@@ -1,0 +1,13 @@
+<project name="deps" default="all" xmlns:ivy="antlib:org.apache.ivy.ant">
+  <property name="ivy.jar" value="ivy.jar"/>
+
+  <target name="all">
+    <path id="ivy.path">
+      <fileset dir="." includes="${ivy.jar}"/>
+    </path>
+    <taskdef resource="org/apache/ivy/ant/antlib.xml"
+      uri="antlib:org.apache.ivy.ant"
+      classpathref="ivy.path"/>
+    <ivy:retrieve pattern="dst/lib/[artifact]-[revision].[ext]"/>
+  </target>
+</project>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="index.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=EB+Garamond'
+          rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700'
+          rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div id="content">
+        <section class="title">
+            <h1>{{title}}</h1>
+        </section>
+        {{#books}}
+        <section class="book">
+            <h2>{{name}}</h2>
+            <div class="chapters">
+              {{#chapters}}
+              <section class="chapter">
+                  <span class="chapter-number">{{number}}</span>
+                  <div class="verses">
+                      {{#verses}}
+                          <div class="verse">
+                              <span class="num">{{number}}</span>&nbsp;<span class="txt">{{toString}}</span>
+                          </div>
+                      {{/verses}}
+                  </div>
+              </section>
+              {{/chapters}}
+            </div>
+        </section>
+        {{/books}}
+    </div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name" : "layout",
+  "version" : "0.0.1",
+  "main" : "main.js",
+  "description": "Page Layout Tool",
+  "license": "MIT",
+  "repository": "user/repo",
+  "dependencies" : {
+    "minimist" : "1.2.0"
+  }
+}
