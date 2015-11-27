@@ -1,6 +1,6 @@
-package kellegous.flf.model;
+package kellegous.holyfear.model;
 
-import kellegous.flf.Tokenizer;
+import kellegous.holyfear.Tokenizer;
 
 import java.util.ArrayList;
 import java.util.List;

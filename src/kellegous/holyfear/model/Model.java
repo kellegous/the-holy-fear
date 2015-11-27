@@ -1,17 +1,15 @@
-package kellegous.flf.model;
+package kellegous.holyfear.model;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import com.google.common.collect.Lists;
-import kellegous.flf.Tokenizer;
+import kellegous.holyfear.Tokenizer;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Model {
 

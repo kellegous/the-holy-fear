@@ -1,4 +1,4 @@
-package kellegous.flf.util;
+package kellegous.holyfear.util;
 
 import java.util.*;
 import java.util.function.Consumer;

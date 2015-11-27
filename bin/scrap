@@ -1,7 +1,0 @@
-#!/usr/bin/env python
-
-import lib
-import sys
-
-if __name__ == '__main__':
-    sys.exit(lib.run('kellegous.flf.Scrap'))

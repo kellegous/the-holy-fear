@@ -1,10 +1,10 @@
-package kellegous.flf.web;
+package kellegous.holyfear.web;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
-import kellegous.flf.Bible;
-import kellegous.flf.Tokenizer;
-import kellegous.flf.util.StreamUtil;
+import kellegous.holyfear.Bible;
+import kellegous.holyfear.Tokenizer;
+import kellegous.holyfear.util.StreamUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 

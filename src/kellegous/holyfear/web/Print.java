@@ -1,10 +1,10 @@
-package kellegous.flf.web;
+package kellegous.holyfear.web;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
-import kellegous.flf.Bible;
+import kellegous.holyfear.Bible;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;

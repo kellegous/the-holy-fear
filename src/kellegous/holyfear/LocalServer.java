@@ -1,6 +1,6 @@
-package kellegous.flf;
+package kellegous.holyfear;
 
-import kellegous.flf.util.Cli;
+import kellegous.holyfear.util.Cli;
 import org.apache.commons.cli.*;
 import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.server.handler.DefaultHandler;

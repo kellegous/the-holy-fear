@@ -1,4 +1,4 @@
-package kellegous.flf.util;
+package kellegous.holyfear.util;
 
 public class Pair<U, V> {
   private final U u;

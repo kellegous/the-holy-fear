@@ -1,8 +1,8 @@
-package kellegous.flf.model;
+package kellegous.holyfear.model;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import kellegous.flf.Tokenizer;
+import kellegous.holyfear.Tokenizer;
 
 import java.io.IOException;
 

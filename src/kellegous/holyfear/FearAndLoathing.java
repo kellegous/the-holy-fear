@@ -1,4 +1,4 @@
-package kellegous.flf;
+package kellegous.holyfear;
 
 import java.io.*;
 

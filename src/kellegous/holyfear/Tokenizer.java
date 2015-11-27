@@ -1,4 +1,4 @@
-package kellegous.flf;
+package kellegous.holyfear;
 
 import com.google.common.collect.Lists;
 import edu.stanford.nlp.ling.CoreLabel;
@@ -8,7 +8,7 @@ import edu.stanford.nlp.process.CoreLabelTokenFactory;
 import edu.stanford.nlp.process.PTBTokenizer;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import edu.stanford.nlp.util.StringUtils;
-import kellegous.flf.util.Pair;
+import kellegous.holyfear.util.Pair;
 
 import java.io.File;
 import java.io.Reader;

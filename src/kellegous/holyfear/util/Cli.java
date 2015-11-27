@@ -1,4 +1,4 @@
-package kellegous.flf.util;
+package kellegous.holyfear.util;
 
 import com.google.common.base.Function;
 import org.apache.commons.cli.CommandLine;
