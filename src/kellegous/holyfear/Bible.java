@@ -5,11 +5,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * A model object for the King James Bible.
+ */
 public class Bible {
-  public static final String NAME = "King James Bible";
 
+  /**
+   * A map from abbr to original bible book name.
+   */
   private static final Map<String, String> nameByAbbr = createAbbrToNameMap();
 
+  /**
+   * Create the mappings from abbr to original book name.
+   */
   private static Map<String, String> createAbbrToNameMap() {
     Map<String, String> m = new HashMap<>();
     m.put("col", "Colossians");
@@ -110,9 +118,15 @@ public class Bible {
     return m;
   }
 
+  /**
+   * Represents a book in the bible.
+   */
   public static class Book {
+
     private final String abbr;
+
     private final String name;
+
     private final List<Chapter> chapters;
 
     Book(String abbr, String name) {
@@ -120,6 +134,7 @@ public class Bible {
       this.name = name;
       chapters = new ArrayList<>();
     }
+
     public Book(String abbr, String name, List<Chapter> chapters) {
       this.abbr = abbr;
       this.name = name;
@@ -133,14 +148,23 @@ public class Bible {
 
     }
 
+    /**
+     * The full name of the book.
+     */
     public String name() {
       return name;
     }
 
+    /**
+     * A 3-letter abbreviation of the book.
+     */
     public String abbr() {
       return abbr;
     }
 
+    /**
+     * All the chapters that make up this book.
+     */
     public List<Chapter> chapters() {
       return chapters;
     }
@@ -159,6 +183,9 @@ public class Bible {
     }
   }
 
+  /**
+   * Represents a chapter in a book of the bible.
+   */
   public static class Chapter {
     private final int number;
     private final List<Verse> verses;
@@ -178,10 +205,16 @@ public class Bible {
       this.verses = verses.collect(Collectors.toList());
     }
 
+    /**
+     * The versions that make up this chapter.
+     */
     public List<Verse> verses() {
       return verses;
     }
 
+    /**
+     * The number of this chapter.
+     */
     public int number() {
       return number;
     }
@@ -191,6 +224,9 @@ public class Bible {
     }
   }
 
+  /**
+   * Represents a biblical verse.
+   */
   public static class Verse {
     private final int number;
     private final List<List<Tokenizer.Token>> text;
@@ -200,14 +236,24 @@ public class Bible {
       this.text = text;
     }
 
+    /**
+     * The number of the verse.
+     */
     public int number() {
       return number;
     }
 
+    /**
+     * A tokenized representation of the verse's text.
+     */
     public List<List<Tokenizer.Token>> text() {
       return text;
     }
 
+    /**
+     * Turn the text of this verse into string data and store it in the given StringBuilder.
+     * @see #toString()
+     */
     public StringBuilder toString(StringBuilder buffer) {
       for (int i = 0, n = text.size(); i < n; i++) {
         if (i != 0) {
@@ -218,6 +264,9 @@ public class Bible {
       return buffer;
     }
 
+    /**
+     * Turn the text of this verse into a string.
+     */
     @Override
     public String toString() {
       return toString(new StringBuilder()).toString();
@@ -225,6 +274,7 @@ public class Bible {
   }
 
   private Bible() {
+    // uninstantiable
   }
 
   private static void add(
@@ -245,12 +295,18 @@ public class Bible {
     book.add(chapter, number, text);
   }
 
+  /**
+   * Read a bible from the given file using the given tokenizer.
+   */
   public static List<Book> readFrom(File file, Tokenizer tokenizer) throws IOException {
     try (FileReader r = new FileReader(file)) {
       return readFrom(r, tokenizer);
     }
   }
 
+  /**
+   * Read a bible from the given reader using the given tokenizer.
+   */
   public static List<Book> readFrom(Reader r, Tokenizer tokenizer) throws IOException {
     try (BufferedReader br = new BufferedReader(r)) {
 
