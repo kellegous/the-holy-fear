@@ -23,8 +23,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * The command for generating the text of The Holy Fear.
+ */
 public class CreateFear {
 
+  private static final String TITLE = "The Holy Fear";
+
+  private static final String DESC = "The sacred union of the King James Version of The Holy Bible and Hunter S. Thompson's Fear and Loathing in Las Vegas";
+
+  /**
+   * The part of speeches that are replaceable in the text.
+   */
   private static Set<String> rewritablePoses = Sets.newHashSet(
       "NNP",
       "NNS",
@@ -40,25 +50,26 @@ public class CreateFear {
       "NN"
   );
 
+  /**
+   * Words that cannot be used as took names.
+   */
   private static Set<String> bannedBookNames = Sets.newHashSet(
       "niggers"
   );
 
   /**
-   *
+   * Logic for renaming books.
    */
   private static class Books {
 
     /**
-     *
+     * Words that should not be rewritten in book names.
      */
     private static final Set<String> STOPS = Sets.newHashSet("of", "the");
 
     /**
-     *
-     * @param opts
-     * @param rng
-     * @return
+     * Select uniformly among the contents of the stream using the given random
+     * number generator.
      */
     private static String select(Stream<String> opts, Random rng) {
       List<String> vals = opts.collect(Collectors.toList());
@@ -66,9 +77,7 @@ public class CreateFear {
     }
 
     /**
-     *
-     * @param word
-     * @return
+     * Does the given String only contain digits?
      */
     private static boolean isAllDigits(String word) {
       for (int i = 0, n = word.length(); i < n; i++) {
@@ -80,20 +89,15 @@ public class CreateFear {
     }
 
     /**
-     *
-     * @param word
-     * @return
+     * Is the given word replaceable?
      */
     private static boolean canReplace(String word) {
       return !isAllDigits(word) && !STOPS.contains(word);
     }
 
     /**
-     *
-     * @param tokens
-     * @param encoder
-     * @return
-     * @throws EncoderException
+     * Associates a soundex-like encoding for each of the given string
+     * tokens.
      */
     private static List<Pair<String, String>> tokensForBookNames(
         Set<String> tokens,
@@ -111,13 +115,7 @@ public class CreateFear {
     }
 
     /**
-     *
-     * @param word
-     * @param limit
-     * @param encoder
-     * @param terms
-     * @return
-     * @throws EncoderException
+     * For a given word in a book title, get a list of candidate replacement terms.
      */
     private static Stream<String> getCandidateTerms(
         String word,
@@ -148,14 +146,7 @@ public class CreateFear {
     }
 
     /**
-     *
-     * @param name
-     * @param rng
-     * @param knownTerms
-     * @param encoder
-     * @param terms
-     * @return
-     * @throws EncoderException
+     * Rename this book.
      */
     static String rename(
         String name,
@@ -187,13 +178,8 @@ public class CreateFear {
     }
 
     /**
-     *
-     * @param bible
-     * @param src
-     * @param rng
-     * @param encoder
-     * @return
-     * @throws EncoderException
+     * Rename all the book in this bible, returning a map from book abbreviation to
+     * replacement name.
      */
     static Map<String, String> renameBooks(
         List<Bible.Book> bible,
@@ -225,11 +211,7 @@ public class CreateFear {
   }
 
   /**
-   *
-   * @param dst
-   * @param fn
-   * @return
-   * @throws IOException
+   * Avoids rebuilding a model by caching it into a given file.
    */
   private static Model usingCacheFile(
       File dst,
@@ -248,6 +230,9 @@ public class CreateFear {
     return m;
   }
 
+  /**
+   * The command line options for this command.
+   */
   private static class Opts {
     private static final String OPT_FEAR_AND_LOATHING_FILE = "fear-and-loathing-file";
     private static final String DEFAULT_FEAR_AND_LOATHING_FILE = "dat/fearandloathing.pdf";
@@ -332,8 +317,11 @@ public class CreateFear {
     }
   }
 
-  private static Tokenizer.Token selectToken(Model model, Context ctx, Tokenizer.Token t, Random rng, double p) {
-    if (!rewritablePoses.contains(t.pos()) || rng.nextDouble() > p) {
+  /**
+   * Select an individual token from a statistical model.
+   */
+  private static Tokenizer.Token selectToken(Model model, Context ctx, Tokenizer.Token t, Random rng) {
+    if (!rewritablePoses.contains(t.pos())) {
       return t;
     }
 
@@ -342,28 +330,32 @@ public class CreateFear {
     return ts != null ? ts : t;
   }
 
+  /**
+   * Rewrite the text of a verse using the given statistical model.
+   */
   private static List<List<Tokenizer.Token>> rewrite(
       List<List<Tokenizer.Token>> text,
       Model model,
-      Random rng,
-      double p) {
+      Random rng) {
     Context ctx = new Context(model.size());
     return text.stream().map(s -> {
       ctx.clear();
       return s.stream().map(t -> {
-        Tokenizer.Token ts = selectToken(model, ctx, t, rng, p);
+        Tokenizer.Token ts = selectToken(model, ctx, t, rng);
         ctx.add(ts);
         return ts;
       }).collect(Collectors.toList());
     }).collect(Collectors.toList());
   }
 
+  /**
+   * Rewrite the bible using the given statistical model.
+   */
   private static List<Bible.Book> rewrite(
       List<Bible.Book> books,
       Model model,
       Map<String, String> names,
-      Random rng,
-      double p) {
+      Random rng) {
     return books.stream()
         .map(b -> new Bible.Book(
             b.abbr(),
@@ -374,7 +366,7 @@ public class CreateFear {
                     c.verses().stream().map(
                         v -> new Bible.Verse(
                             v.number(),
-                            rewrite(v.text(), model, rng, p)))))))
+                            rewrite(v.text(), model, rng)))))))
         .collect(Collectors.toList());
   }
 
@@ -402,9 +394,9 @@ public class CreateFear {
         new DoubleMetaphone());
 
 
-    List<Bible.Book> books = rewrite(bible, model, names, rng, 1.0);
+    List<Bible.Book> books = rewrite(bible, model, names, rng);
 
-    Print.toJson(opts.destDir, books);
+    Print.toJson(opts.destDir, TITLE, DESC, opts.seed, books);
     Export.toJson(opts.destDir, bible, books);
   }
 }

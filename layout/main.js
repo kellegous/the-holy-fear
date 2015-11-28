@@ -42,6 +42,8 @@ var buff = fs.readFileSync(argv._[0]),
         .substring(0, 8),
     dest = path.join(argv.dst, hash);
 
+console.log(hash);
+
 MakeDirsSync(dest);
 
 app.on('ready', function() {
@@ -52,12 +54,12 @@ app.on('ready', function() {
     webContents.send('begin-layout', data);
   });
 
-  ipc.on('save-file', function(event, ix, contents) {
-    var filename = path.join(dest, Pad(ix, 4, '0') + '.html');
-    fs.writeFileSync(filename, contents);
+  ipc.on('save-file', function(event, filename, contents) {
+    fs.writeFileSync(path.join(dest, filename), contents);
   });
 
   ipc.on('quit', function(event) {
+    // browser.show();
     process.exit(0);
   });
 });

@@ -80,17 +80,29 @@ public class Print {
     g.writeEndObject();
   }
 
-  public static void toJson(File dst, List<Bible.Book> books) throws IOException {
+  public static void toJson(
+      File dst,
+      String title,
+      String desc,
+      long seed,
+      List<Bible.Book> books) throws IOException {
     FileUtils.forceMkdir(dst);
 
     try (JsonGenerator g = gen(new File(dst, "print.json"))) {
-      g.writeStartArray();
+      g.writeStartObject();
 
+      g.writeStringField("title", title);
+      g.writeStringField("desc", desc);
+      g.writeNumberField("seed", seed);
+
+      g.writeFieldName("books");
+      g.writeStartArray();
       for (Bible.Book book : books) {
         toJson(g, book);
       }
-
       g.writeEndArray();
+
+      g.writeEndObject();
     }
   }
 

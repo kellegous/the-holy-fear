@@ -1,8 +1,6 @@
 var ipc = require('ipc'),
     $ = require('./jquery');
 
-(function() {
-
 var toRoman = function(num) {
   var rom = ["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"],
       dec = [1000,900,500,400,100,90,50,40,10,9,5,4,1],
@@ -20,19 +18,19 @@ var toRoman = function(num) {
   return res;
 };
 
-var $e = function(name) {
-  return $(document.createElement(name));
+var toHex = function(num) {
+  return '0x' + num.toString(16);
 };
 
-var RightMostColumn = function(el) {
-  return Math.max(el.getClientRects().map(function(r) {
-    return r.left;
-  }));
+var $e = function(name) {
+  return $(document.createElement(name));
 };
 
 var State = function($cnt, w, h) {
   this.w = w;
   this.h = h;
+  this.pageNum = -1;
+  this.toc = [];
   this.$cnt = $cnt.text('').css('opacity', 1);
 };
 
@@ -41,6 +39,7 @@ State.prototype.hasOverflowed = function() {
 };
 
 State.prototype.newPage = function() {
+  this.pageNum++;
   this.$pag = $e('div').addClass('page')
     .appendTo(this.$cnt);
 }
@@ -50,11 +49,31 @@ State.prototype.newCols = function() {
     .appendTo(this.$pag);
 }
 
-State.prototype.addBookName = function(name) {
+State.prototype.addTitlePage = function(title, seed, desc) {
+  this.newPage();
+  $e('h1').text(title)
+    .appendTo(this.$pag);
+  $e('div').addClass('title-desc')
+    .text(desc)
+    .appendTo(this.$pag);
+
+  $e('div').addClass('title-seed-a')
+    .text('Generated from Magic Seed')
+    .appendTo(this.$pag);
+  $e('div').addClass('title-seed-b')
+    .text(toHex(seed))
+    .appendTo(this.$pag);
+};
+
+State.prototype.addBookName = function(name, abbr) {
   this.newPage();
   var $el = $e('h2').text(name)
     .appendTo(this.$pag);
   this.newCols();
+  this.toc.push({
+    'book' : abbr,
+    'page' : this.pageNum
+  });
 }
 
 State.prototype.addChapter = function(number) {
@@ -139,11 +158,13 @@ State.prototype.addVerseTxt = function(text, id) {
   this.addVerseTxt(stuff.join(' '), id);
 };
 
-var Render = function(books, whenDone) {
+var Render = function(data, whenDone) {
   var state = new State($('#content').text('').css('opacity', 1), 800, 1000);
 
-  books.forEach(function(book) {
-    state.addBookName(book.name);
+  state.addTitlePage(data.title, data.seed, data.desc);
+
+  data.books.forEach(function(book) {
+    state.addBookName(book.name, book.abbr);
     state.newCols();
 
     book.chapters.forEach(function(chapter) {
@@ -158,7 +179,16 @@ var Render = function(books, whenDone) {
     });
   });
 
-  whenDone($('.page').toArray());
+  whenDone($('.page').toArray(), state.toc);
+};
+
+var Pad = function(val, len, pad) {
+  val += '';
+  pad = pad === undefined ? ' ' : pad;
+  while (val.length < len) {
+    val = pad + val;
+  }
+  return val;
 };
 
 $('#content').text('Fuck You Web').css('opacity', 0)
@@ -166,13 +196,18 @@ $('#content').text('Fuck You Web').css('opacity', 0)
 
 ipc.on('begin-layout', function(data) {
   setTimeout(function() {
-    Render(data, function(pages) {
+    Render(data, function(pages, toc) {
       pages.forEach(function(page, ix) {
-        ipc.send('save-file', ix, page.innerHTML);
+        ipc.send('save-file',
+          Pad(ix, 4, '0') + '.html',
+          page.innerHTML);
       });
+
+      ipc.send('save-file',
+        'toc.json',
+        JSON.stringify(toc));
+
       ipc.send('quit');
     });
   }, 1000);
 });
-
-})();
