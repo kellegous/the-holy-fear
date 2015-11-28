@@ -4,4 +4,4 @@ import lib
 import sys
 
 if __name__ == '__main__':
-    sys.exit(lib.run('kellegous.flf.LocalServer'))
+    sys.exit(lib.run('kellegous.holyfear.LocalServer'))

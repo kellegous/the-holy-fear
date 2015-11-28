@@ -86,6 +86,12 @@ file 'dst/app.jar' => ['dst/dep.jar'] + FileList['src/**/*'] do |t|
     'app.jar'
 end
 
+file 'layout/node_modules' do
+  Dir.chdir('layout') {
+    sh 'npm', 'install'
+  }
+end
+
 task :test => tst_jars do
 	sh 'go', 'test', 'relig/scan', 'relig/scan/bible'
 end
@@ -104,9 +110,9 @@ task :clean do
   }
 end
 
-task :default => [ 'dst/app.jar' ]
+task :default => [ 'dst/app.jar', POS_MODELS_DEP ]
 
-task :fear => [ 'dst/app.jar'] do
+task :fear => [ 'dst/app.jar', POS_MODELS_DEP, 'layout/node_modules' ] do
   sh 'bin/create-fear', '--dest-dir=dst/www'
   sh 'electron', 'layout', '--dst=dst/www', 'dst/www/print.json'
 end

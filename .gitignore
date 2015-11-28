@@ -2,3 +2,4 @@ ivy.xml
 build.xml
 dst
 bin/lib.pyc
+layout/node_modules

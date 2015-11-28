@@ -2,51 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5cfa7f0-64f7-4d9a-9209-5a04510e09ac" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/holyfear.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/Bible.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/CreateFear.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/FearAndLoathing.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/Gzip.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/LocalServer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/Pdf.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/Readers.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/Tokenizer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/model/Context.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/model/Model.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/model/WeightedToken.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/util/Cli.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/util/Pair.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/util/StreamUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/web/CompareView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/web/Export.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/web/Print.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/web/compare-view.mustache" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/web/index.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/web/print.mustache" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/scrap" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/Bible.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/CreateFear.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/FearAndLoathing.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/Gzip.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/LocalServer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/Pdf.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/Readers.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/Scrap.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/Tokenizer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/model/Context.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/model/Model.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/model/WeightedToken.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/util/Cli.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/util/Pair.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/util/StreamUtil.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/web/CompareView.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/web/Export.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/web/Print.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/web/compare-view.mustache" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/web/index.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/kellegous/flf/web/print.mustache" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Rakefile" afterPath="$PROJECT_DIR$/Rakefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/create-fear" afterPath="$PROJECT_DIR$/bin/create-fear" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/local-server" afterPath="$PROJECT_DIR$/bin/local-server" />
     </list>
     <ignored path="holyfear.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -860,7 +818,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21599045" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21599045" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
