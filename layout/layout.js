@@ -65,33 +65,34 @@ State.prototype.addTitlePage = function(title, seed, desc) {
     .appendTo(this.$pag);
 };
 
-State.prototype.addBookName = function(name, abbr) {
+State.prototype.addBookName = function(book) {
   this.newPage();
-  var $el = $e('h2').text(name)
+  var $el = $e('h2').text(book.name)
     .appendTo(this.$pag);
   this.newCols();
-  this.toc.push({
-    'book' : abbr,
-    'page' : this.pageNum
-  });
 }
 
-State.prototype.addChapter = function(number) {
+State.prototype.addChapter = function(book, chapter) {
   var $el = $e('span').addClass('chapter-num')
-    .text(number)
+    .text(chapter.num)
     .appendTo(this.$col);
 
   if (!this.hasOverflowed()) {
+    this.toc.push({
+      'ch' : book.abbr + '-' + chapter.num,
+      'fr' : this.pageNum
+    });
     return;
   }
 
   $el.remove();
   this.newPage();
   this.newCols();
-  this.addChapter(number);
+  this.addChapter(book, chapter);
 };
 
-State.prototype.addChapterEnd = function() {
+State.prototype.addChapterEnd = function(book, chapter) {
+  this.toc[this.toc.length - 1].to = this.pageNum;
   $e('div').addClass('chapter-end')
     .appendTo(this.$col);
 };
@@ -158,6 +159,10 @@ State.prototype.addVerseTxt = function(text, id) {
   this.addVerseTxt(stuff.join(' '), id);
 };
 
+State.prototype.pageCount = function() {
+  return this.pageNum + 1;
+}
+
 var Render = function(data, whenDone) {
   var state = new State($('#content').text('').css('opacity', 1), 800, 1000);
 
@@ -168,18 +173,20 @@ var Render = function(data, whenDone) {
     state.newCols();
 
     book.chapters.forEach(function(chapter) {
-      state.addChapter(chapter.num);
+      state.addChapter(book, chapter);
       chapter.verses.forEach(function(verse) {
         state.addVerseNum(verse.num);
         state.addVerseTxt(
           verse.txt,
           book.abbr + '-' + chapter.num + '-' + verse.num);
       });
-      state.addChapterEnd();
+      state.addChapterEnd(book, chapter);
     });
   });
 
-  whenDone($('.page').toArray(), state.toc);
+  whenDone(
+    $('.page').toArray(),
+    { count: state.pageCount(), chapters: state.toc });
 };
 
 var Pad = function(val, len, pad) {

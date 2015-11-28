@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5cfa7f0-64f7-4d9a-9209-5a04510e09ac" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/layout/layout.css" afterPath="$PROJECT_DIR$/layout/layout.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/layout/layout.js" afterPath="$PROJECT_DIR$/layout/layout.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/layout/main.js" afterPath="$PROJECT_DIR$/layout/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kellegous/holyfear/CreateFear.java" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/CreateFear.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kellegous/holyfear/web/Print.java" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/web/Print.java" />
     </list>
     <ignored path="holyfear.iws" />
     <ignored path=".idea/workspace.xml" />
