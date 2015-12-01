@@ -169,7 +169,7 @@ var Render = function(data, whenDone) {
   state.addTitlePage(data.title, data.seed, data.desc);
 
   data.books.forEach(function(book) {
-    state.addBookName(book.name, book.abbr);
+    state.addBookName(book);
     state.newCols();
 
     book.chapters.forEach(function(chapter) {

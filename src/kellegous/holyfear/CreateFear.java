@@ -396,7 +396,9 @@ public class CreateFear {
 
     List<Bible.Book> books = rewrite(bible, model, names, rng);
 
+    Bible.toJson(new File(opts.destDir, "fear.json.gz"), books);
     Print.toJson(opts.destDir, TITLE, DESC, opts.seed, books);
+    Print.toHtml(new File(opts.destDir, "print"), TITLE, DESC, opts.seed, books);
     Export.toJson(opts.destDir, bible, books);
   }
 }

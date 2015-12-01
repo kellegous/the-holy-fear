@@ -1,0 +1,8 @@
+body {
+}
+
+.page {
+  width: 800px;
+  border: 1px solid #999;
+  margin: 20px auto;
+}

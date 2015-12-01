@@ -1,0 +1,40 @@
+body {
+  font-family: 'EB Garamond', serif;
+  font-size: 14.5px;
+  color: #222;
+}
+
+#content {
+  width: 900px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.text {
+  position: absolute;
+  white-space: nowrap;
+}
+
+.frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid #999;
+}
+
+.text.t0 {
+}
+
+.text.t1 {
+  font-family: "Lato";
+  font-size: 40px;
+}
+
+.text.t2 {
+  font-size: 80%;
+}
+
+.text.t3 {
+  font-family: "Lato";
+  font-size: 22px;
+}

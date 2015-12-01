@@ -75,8 +75,8 @@ public class LocalServer {
 
     server.addConnector(c);
     server.setHandler(handlersOf(
-        resourceHandlerFor(new File("pub")),
         resourceHandlerFor(opts.datDir),
+        resourceHandlerFor(new File("pub")),
         new DefaultHandler()
     ));
     server.start();

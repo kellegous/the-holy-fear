@@ -1,0 +1,11 @@
+{
+  "name" : "press",
+  "version" : "0.0.1",
+  "main" : "main.js",
+  "description" : "Text Press",
+  "license" : "MIT",
+  "repository" : "user/repo",
+  "dependencies" : {
+    "minimist" : "1.2.0"
+  }
+}

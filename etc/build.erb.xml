@@ -9,7 +9,9 @@
     </path>
 
     <mkdir dir="dst/classes"/>
-    <javac srcdir="src" destdir="dst/classes">
+    <javac srcdir="src" destdir="dst/classes"
+        debug="true"
+        includeAntRuntime="false">
       <classpath refid="compile.classpath" />
     </javac>
     <copy todir="dst/classes">

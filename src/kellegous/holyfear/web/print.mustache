@@ -13,6 +13,9 @@
     <div id="content">
         <section class="title">
             <h1>{{title}}</h1>
+            <div class="title-desc">{{desc}}</div>
+            <div class="title-seed-a">Generated from Magic Seed</div>
+            <div class="title-seed-b">{{seed}}</div>
         </section>
         {{#books}}
         <section class="book">
@@ -20,7 +23,7 @@
             <div class="chapters">
               {{#chapters}}
               <section class="chapter">
-                  <span class="chapter-number">{{number}}</span>
+                  <span class="chapter-num">{{number}}</span>
                   <div class="verses">
                       {{#verses}}
                           <div class="verse">

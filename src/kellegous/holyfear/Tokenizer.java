@@ -97,19 +97,6 @@ public class Tokenizer {
       return a.text.equals(b.text) && a.flags == b.flags && a.pos.equals(b.pos);
     }
 
-    public static int lengthOf(List<Token> tokens) {
-      int len = 0;
-      for (int i = 0, n = tokens.size(); i < n; i++) {
-        Token token = tokens.get(i);
-        if (i > 0 && token.needsLeadingSpace()) {
-          len++;
-        }
-
-        len += token.text().length();
-      }
-      return len;
-    }
-
     public static StringBuilder format(List<Token> tokens, StringBuilder buffer) {
       for (int i = 0, n = tokens.size(); i < n; i++) {
         Token token = tokens.get(i);

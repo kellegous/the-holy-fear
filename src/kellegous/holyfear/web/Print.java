@@ -25,15 +25,19 @@ public class Print {
 
   private static class Ctx {
     public final String title;
+    public final String desc;
+    public final String seed;
     public final List<Bible.Book> books;
 
-    Ctx(String title, List<Bible.Book> books) {
+    Ctx(String title, String desc, long seed, List<Bible.Book> books) {
       this.title = title;
+      this.desc = desc;
+      this.seed = "0x" + Long.toHexString(seed);
       this.books = books;
     }
 
-    static Ctx build(String title, List<Bible.Book> books) {
-      return new Ctx(title, books);
+    static Ctx build(String title, String desc, long seed, List<Bible.Book> books) {
+      return new Ctx(title, desc, seed, books);
     }
   }
 
@@ -106,10 +110,15 @@ public class Print {
     }
   }
 
-  public static void toHtml(File dst, List<Bible.Book> books) throws IOException {
+  public static void toHtml(
+      File dst,
+      String title,
+      String desc,
+      long seed,
+      List<Bible.Book> books) throws IOException {
     FileUtils.forceMkdir(dst);
 
-    Ctx ctx = Ctx.build("The Holy Fear", books);
+    Ctx ctx = Ctx.build(title, desc, seed, books);
     try (Writer w = new FileWriter(new File(dst, "index.html"))) {
       templateFrom("print.mustache").execute(w, ctx);
     }

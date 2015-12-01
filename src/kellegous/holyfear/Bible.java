@@ -1,7 +1,15 @@
 package kellegous.holyfear;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -135,7 +143,7 @@ public class Bible {
       chapters = new ArrayList<>();
     }
 
-    public Book(String abbr, String name, List<Chapter> chapters) {
+    private Book(String abbr, String name, List<Chapter> chapters) {
       this.abbr = abbr;
       this.name = name;
       this.chapters = chapters;
@@ -144,8 +152,9 @@ public class Bible {
     public Book(String abbr, String name, Stream<Chapter> chapters) {
       this.abbr = abbr;
       this.name = name;
-      this.chapters = chapters.collect(Collectors.toList());
-
+      this.chapters = chapters
+          .map(c -> c.inBook(this))
+          .collect(Collectors.toList());
     }
 
     /**
@@ -175,11 +184,57 @@ public class Bible {
           : null;
 
       if (ch == null || ch.number() != chapter) {
-        ch = new Chapter(chapter);
+        ch = new Chapter(this, chapter);
         chapters.add(ch);
       }
 
       ch.add(number, text);
+    }
+
+    private void toJson(JsonGenerator g) throws IOException {
+      g.writeStartObject();
+
+      g.writeStringField("abbr", abbr);
+      g.writeStringField("name", name);
+
+      g.writeFieldName("chapters");
+      g.writeStartArray();
+      for (Chapter chapter : chapters) {
+        chapter.toJson(g);
+      }
+      g.writeEndArray();
+
+      g.writeEndObject();
+    }
+
+    private static Book fromJson(JsonParser p) throws IOException {
+      String abbr = null;
+      String name = null;
+      List<Chapter> chapters = new ArrayList<>();
+
+      while (p.nextToken() != JsonToken.END_OBJECT) {
+        String field = p.getCurrentName();
+
+        if (p.nextToken() == JsonToken.VALUE_NULL) {
+          continue;
+        }
+
+        if (field.equals("abbr")) {
+          abbr = p.getText();
+        } else if (field.equals("name")) {
+          name = p.getText();
+        } else if (field.equals("chapters")) {
+          while (p.nextToken() != JsonToken.END_ARRAY) {
+            chapters.add(Chapter.fromJson(p));
+          }
+        } else {
+          p.skipChildren();
+        }
+      }
+
+      Book book = new Book(abbr, name, chapters);
+      chapters.forEach(c -> c.inBook(book));
+      return book;
     }
   }
 
@@ -189,20 +244,33 @@ public class Bible {
   public static class Chapter {
     private final int number;
     private final List<Verse> verses;
+    private Book book;
 
-    Chapter(int number) {
+    private Chapter(Book book, int number) {
+      this.book = book;
       this.number = number;
       this.verses = new ArrayList<>();
     }
 
-    public Chapter(int number, List<Verse> verses) {
+    private Chapter(int number, List<Verse> verses) {
       this.number = number;
       this.verses = verses;
     }
 
     public Chapter(int number, Stream<Verse> verses) {
       this.number = number;
-      this.verses = verses.collect(Collectors.toList());
+      this.verses = verses
+          .map(v -> v.inChapter(this))
+          .collect(Collectors.toList());
+    }
+
+    private Chapter inBook(Book book) {
+      this.book = book;
+      return this;
+    }
+
+    public Book book() {
+      return book;
     }
 
     /**
@@ -220,7 +288,49 @@ public class Bible {
     }
 
     private void add(int number, List<List<Tokenizer.Token>> text) {
-      verses.add(new Verse(number, text));
+      verses.add(new Verse(this, number, text));
+    }
+
+    private void toJson(JsonGenerator g) throws IOException {
+      g.writeStartObject();
+
+      g.writeNumberField("number", number);
+
+      g.writeFieldName("verses");
+      g.writeStartArray();
+      for (Verse verse : verses) {
+        verse.toJson(g);
+      }
+      g.writeEndArray();
+
+      g.writeEndObject();
+    }
+
+    private static Chapter fromJson(JsonParser p) throws IOException {
+      int number = -1;
+      List<Verse> verses = new ArrayList<>();
+
+      while (p.nextToken() != JsonToken.END_OBJECT) {
+        String field = p.getCurrentName();
+
+        if (p.nextToken() == JsonToken.VALUE_NULL) {
+          continue;
+        }
+
+        if (field.equals("number")) {
+          number = p.getIntValue();
+        } else if (field.equals("verses")) {
+          while (p.nextToken() != JsonToken.END_ARRAY) {
+            verses.add(Verse.fromJson(p));
+          }
+        } else {
+          p.skipChildren();
+        }
+      }
+
+      Chapter chapter = new Chapter(number, verses);
+      verses.forEach(v -> v.inChapter(chapter));
+      return chapter;
     }
   }
 
@@ -230,12 +340,34 @@ public class Bible {
   public static class Verse {
     private final int number;
     private final List<List<Tokenizer.Token>> text;
+    private Chapter chapter;
+
+    private Verse(Chapter chapter, int number, List<List<Tokenizer.Token>> text) {
+      this.chapter = chapter;
+      this.number = number;
+      this.text = text;
+    }
 
     public Verse(int number, List<List<Tokenizer.Token>> text) {
       this.number = number;
       this.text = text;
     }
 
+    private Verse inChapter(Chapter chapter) {
+      this.chapter = chapter;
+      return this;
+    }
+
+    public Chapter chapter() {
+      return chapter;
+    }
+
+    public String tag() {
+      return String.format("%s-%d-%d",
+          chapter.book().abbr(),
+          chapter.number(),
+          number);
+    }
     /**
      * The number of the verse.
      */
@@ -271,6 +403,92 @@ public class Bible {
     public String toString() {
       return toString(new StringBuilder()).toString();
     }
+
+    private static void toJson(JsonGenerator g, Tokenizer.Token token) throws IOException {
+      g.writeStartObject();
+      g.writeStringField("text", token.text());
+      g.writeNumberField("flags", token.flags());
+      g.writeStringField("pos", token.pos());
+      g.writeEndObject();
+    }
+
+    private void toJson(JsonGenerator g) throws IOException {
+      g.writeStartObject();
+
+      g.writeNumberField("number", number);
+
+      g.writeFieldName("text");
+      g.writeStartArray();
+      for (List<Tokenizer.Token> sentence : text) {
+        g.writeStartArray();
+        for (Tokenizer.Token token : sentence) {
+          toJson(g, token);
+        }
+        g.writeEndArray();
+      }
+      g.writeEndArray();
+
+      g.writeEndObject();
+    }
+
+    private static Tokenizer.Token tokenFromJson(JsonParser p) throws IOException {
+      String text = null;
+      int flags = -1;
+      String pos = null;
+
+      while (p.nextToken() != JsonToken.END_OBJECT) {
+        String field = p.getCurrentName();
+
+        if (p.nextToken() == JsonToken.VALUE_NULL) {
+          continue;
+        }
+
+        if (field.equals("text")) {
+          text = p.getText();
+        } else if (field.equals("flags")) {
+          flags = p.getIntValue();
+        } else if (field.equals("pos")) {
+          pos = p.getText();
+        } else {
+          p.skipChildren();
+        }
+      }
+
+      return new Tokenizer.Token(text, pos, flags);
+    }
+
+    private static void textFromJson(JsonParser p, List<List<Tokenizer.Token>> text) throws IOException {
+      while (p.nextToken() != JsonToken.END_ARRAY) {
+        List<Tokenizer.Token> tokens = new ArrayList<>();
+        text.add(tokens);
+        while (p.nextToken() != JsonToken.END_ARRAY) {
+          tokens.add(tokenFromJson(p));
+        }
+      }
+    }
+
+    private static Verse fromJson(JsonParser p) throws IOException {
+      int number = -1;
+      List<List<Tokenizer.Token>> text = new ArrayList<>();
+
+      while (p.nextToken() != JsonToken.END_OBJECT) {
+        String field = p.getCurrentName();
+
+        if (p.nextToken() == JsonToken.VALUE_NULL) {
+          continue;
+        }
+
+        if (field.equals("number")) {
+          number = p.getIntValue();
+        } else if (field.equals("text")) {
+          textFromJson(p, text);
+        } else {
+          p.skipChildren();
+        }
+      }
+
+      return new Verse(number, text);
+    }
   }
 
   private Bible() {
@@ -293,6 +511,12 @@ public class Bible {
     }
 
     book.add(chapter, number, text);
+  }
+
+  public static Stream<Verse> allVerses(List<Book> books) {
+    return books.stream()
+        .flatMap(b -> b.chapters().stream()
+            .flatMap(c -> c.verses().stream()));
   }
 
   /**
@@ -332,6 +556,42 @@ public class Bible {
             text);
       }
 
+      return books;
+    }
+  }
+
+  public static void toJson(File dest, List<Book> books) throws IOException {
+    try (Writer w = Gzip.newWriter(dest)) {
+      toJson(w, books);
+    }
+  }
+
+  private static void toJson(Writer w, List<Book> books) throws IOException {
+    try (JsonGenerator g = new JsonFactory().createGenerator(w)) {
+      g.writeStartArray();
+      for (Book book : books) {
+        book.toJson(g);
+      }
+      g.writeEndArray();
+    }
+  }
+
+  public static List<Book> fromJson(File src) throws IOException {
+    try (Reader r = Gzip.newReader(src)) {
+      return fromJson(r);
+    }
+  }
+
+  private static List<Book> fromJson(Reader r) throws IOException {
+    try (JsonParser p = new JsonFactory().createParser(r)) {
+      if (p.nextToken() != JsonToken.START_ARRAY) {
+        throw new IOException("Expected beginning of array.");
+      }
+
+      List<Book> books = new ArrayList<>();
+      while (p.nextToken() != JsonToken.END_ARRAY) {
+        books.add(Book.fromJson(p));
+      }
       return books;
     }
   }
