@@ -15,7 +15,7 @@
 
   var page = parseInt(location.hash.replace('#', '')) || 1;
 
-  $.getJSON('/t' + Pad(page, 4, '0') + '.json', function(data) {
+  $.getJSON('/77e3539b/' + Pad(page, 4, '0') + '.json', function(data) {
     var $cnt = $('#content');
 
     // $e('div').addClass('frame')

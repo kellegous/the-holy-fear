@@ -1,5 +1,6 @@
 require 'fileutils'
 require './build'
+require 'digest'
 
 set_gopath(['dst/go', '.'])
 GO_DEPS = go_get('dst/go', [
@@ -86,8 +87,8 @@ file 'dst/app.jar' => ['dst/dep.jar'] + FileList['src/**/*'] do |t|
     'app.jar'
 end
 
-file 'layout/node_modules' do
-  Dir.chdir('layout') {
+file 'press/node_modules' do
+  Dir.chdir('press') {
     sh 'npm', 'install'
   }
 end
@@ -112,7 +113,14 @@ end
 
 task :default => [ 'dst/app.jar', POS_MODELS_DEP ]
 
-task :fear => [ 'dst/app.jar', POS_MODELS_DEP, 'layout/node_modules' ] do
+task :create => [ 'dst/app.jar', POS_MODELS_DEP ] do
   sh 'bin/create-fear', '--dest-dir=dst/www'
-  sh 'electron', 'layout', '--dst=dst/www', 'dst/www/print.json'
+  puts 'Visit http://localhost:8081/print/, print a PDF and place it in dst/www/fear.pdf'
+  sh 'bin/local-server'
+end
+
+task :render => [ 'press/node_modules', 'dst/www/fear.json.gz', 'dst/www/fear.pdf' ] do
+  hash = Digest::SHA256.file("dst/www/fear.pdf").hexdigest[0...8]
+  sh 'electron', 'press', '--dst=dst/www/text', 'dst/www/fear.pdf'
+  sh 'bin/render', "--dst=dst/www/#{hash}", 'dst/www/fear.json.gz', 'dst/www/text'
 end

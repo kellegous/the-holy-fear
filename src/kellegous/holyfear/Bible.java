@@ -273,6 +273,10 @@ public class Bible {
       return book;
     }
 
+    public String tag() {
+      return String.format("%s-%d", book.abbr(), number);
+    }
+
     /**
      * The versions that make up this chapter.
      */

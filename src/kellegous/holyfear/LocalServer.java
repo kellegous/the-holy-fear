@@ -3,13 +3,17 @@ package kellegous.holyfear;
 import kellegous.holyfear.util.Cli;
 import org.apache.commons.cli.*;
 import org.eclipse.jetty.server.*;
+import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.util.resource.Resource;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 
 public class LocalServer {
   private static ResourceHandler resourceHandlerFor(File file) {
@@ -25,6 +29,22 @@ public class LocalServer {
     handler.setWelcomeFiles(new String[]{"index.html"});
     handler.setResourceBase(file.getAbsolutePath());
     return handler;
+  }
+
+  private static Handler delayFor(long millis) {
+    return new AbstractHandler() {
+      @Override
+      public void handle(
+          String s,
+          Request request,
+          HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, ServletException {
+        try {
+          Thread.sleep(millis);
+        } catch (InterruptedException e) {
+          // forget about it.
+        }
+      }
+    };
   }
 
   private static HandlerList handlersOf(Handler... handlers) {

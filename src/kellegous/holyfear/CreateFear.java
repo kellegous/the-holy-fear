@@ -15,6 +15,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.StringEncoder;
 import org.apache.commons.codec.language.DoubleMetaphone;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -396,6 +397,7 @@ public class CreateFear {
 
     List<Bible.Book> books = rewrite(bible, model, names, rng);
 
+    FileUtils.forceMkdir(opts.destDir);
     Bible.toJson(new File(opts.destDir, "fear.json.gz"), books);
     Print.toJson(opts.destDir, TITLE, DESC, opts.seed, books);
     Print.toHtml(new File(opts.destDir, "print"), TITLE, DESC, opts.seed, books);

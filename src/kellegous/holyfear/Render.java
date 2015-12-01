@@ -4,34 +4,42 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import kellegous.holyfear.util.Cli;
 import kellegous.holyfear.util.StreamUtil;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.io.FileUtils;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Render {
 
   private static class Opts {
+    private static final String OPT_DEST_DIR = "dst";
+    private static final String DEFAULT_DEST_DIR = "dst/www";
+
     private final File bibleFile;
     private final File textDir;
+    private final File destDir;
 
-    private Opts(File bibleFile, File textDir) {
+    private Opts(File bibleFile, File textDir, File destDir) {
       this.bibleFile = bibleFile;
       this.textDir = textDir;
+      this.destDir = destDir;
     }
 
     static Opts parse(String[] args) throws ParseException {
 
       Options opts = new Options();
+
+      opts.addOption(Cli.newOptionWithArg(OPT_DEST_DIR,
+          "Where to write the output files.",
+          "DIR"));
 
       CommandLine cl = new DefaultParser().parse(opts, args);
 
@@ -42,20 +50,23 @@ public class Render {
 
       return new Opts(
           new File(cl.getArgs()[0]),
-          new File(cl.getArgs()[1]));
+          new File(cl.getArgs()[1]),
+          new File(cl.getOptionValue(OPT_DEST_DIR, DEFAULT_DEST_DIR)));
     }
   }
 
   private static class Page {
     private int[] view;
     private List<TextItem> text;
+    private int number;
 
-    private Page(int[] view, List<TextItem> text) {
+    private Page(int number, int[] view, List<TextItem> text) {
+      this.number = number;
       this.view = view;
       this.text = text;
     }
 
-    static Page fromJson(File src) throws IOException {
+    static Page fromJson(File src, int number) throws IOException {
       int[] view = new int[4];
       List<TextItem> text = new ArrayList<>();
 
@@ -87,7 +98,7 @@ public class Render {
           }
         }
 
-        return new Page(view, text);
+        return new Page(number, view, text);
       }
     }
   }
@@ -200,8 +211,10 @@ public class Render {
 
     private final Set<String> names;
 
+    private final Map<String, int[]> toc = new HashMap<>();
+
     private String text;
-    private String tag;
+    private Bible.Verse verse;
 
     Converter(List<Bible.Book> books) {
       verses = Bible.allVerses(books)
@@ -216,15 +229,14 @@ public class Render {
 
     private boolean next() {
       text = null;
-      tag = null;
+      verse = null;
 
       if (!verses.hasNext()) {
         return false;
       }
 
-      Bible.Verse verse = verses.next();
+      verse = verses.next();
       text = removeSpaces(verse.toString());
-      tag = verse.tag();
       return true;
     }
 
@@ -250,14 +262,24 @@ public class Render {
       return true;
     }
 
-    private Text transform(TextItem item, double scale, int viewHeight) {
+    private void updateToc(Page page, Bible.Verse verse) {
+      int[] val = toc.computeIfAbsent(verse.chapter().tag(), x -> new int[]{
+        page.number,
+        page.number
+      });
+      val[1] = Math.max(page.number, val[1]);
+    }
+
+    private Text transform(TextItem item, Page page, double scale) {
       String noSpaces = removeSpaces(item.str);
+
       int type = classify(item, noSpaces);
       String tag = null;
 
       switch (type) {
       case Text.TYPE_VERSE:
-        tag = this.tag;
+        updateToc(page, this.verse);
+        tag = this.verse.tag();
         text = text.substring(noSpaces.length());
         if (text.isEmpty()) {
           next();
@@ -273,7 +295,7 @@ public class Render {
           item.str,
           item.width * scale,
           item.height * scale,
-          (viewHeight - item.transform[5] - item.transform[3]) * scale,
+          (page.view[3] - item.transform[5] - item.transform[3]) * scale,
           item.transform[4] * scale);
     }
 
@@ -297,14 +319,39 @@ public class Render {
         return Text.TYPE_BLANK;
       }
 
-      throw new IllegalStateException(tag);
+      throw new IllegalStateException();
     }
 
     Stream<Text> transform(Page page, int width) {
       double fx = (double) width / (double) page.view[2];
+      
       return page.text.stream()
-          .map(i -> transform(i, fx, page.view[3]))
+          .map(i -> transform(i, page, fx))
           .filter(i -> i != null);
+    }
+  }
+
+  private static void toJson(File dst, Map<String, int[]> toc, int count) throws IOException {
+    try (Writer w = new FileWriter(dst)) {
+      try (JsonGenerator g = new JsonFactory().createGenerator(w)) {
+        g.writeStartObject();
+        g.writeNumberField("count", count);
+
+        g.writeFieldName("chapters");
+        g.writeStartObject();
+        for (Map.Entry<String, int[]> e : toc.entrySet()) {
+          g.writeFieldName(e.getKey());
+
+          int[] vals = e.getValue();
+          g.writeStartArray();
+          g.writeNumber(vals[0]);
+          g.writeNumber(vals[1]);
+          g.writeEndArray();
+        }
+        g.writeEndObject();
+
+        g.writeEndObject();
+      }
     }
   }
 
@@ -327,14 +374,19 @@ public class Render {
 
     Converter converter = new Converter(books);
 
-    for (int i = 1;; i++) {
-      File src = new File(opts.textDir, String.format("text-%04d.json", i));
+    int count = 1;
+    while (true) {
+      File src = new File(opts.textDir, String.format("text-%04d.json", count));
       if (!src.exists()) {
         break;
       }
 
-      toJson(new File(opts.textDir, String.format("t%04d.json", i)),
-          converter.transform(Page.fromJson(src), 900));
+      FileUtils.forceMkdir(opts.destDir);
+      toJson(new File(opts.destDir, String.format("%04d.json", count)),
+          converter.transform(Page.fromJson(src, count), 900));
+      count++;
     }
+
+    toJson(new File(opts.destDir, "toc.json"), converter.toc, count - 1);
   }
 }
