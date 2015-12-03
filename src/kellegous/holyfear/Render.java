@@ -191,14 +191,22 @@ public class Render {
       this.left = left;
     }
 
+    private static int fix(double value) {
+      return (int)(value*100);
+    }
+
     private void toJson(JsonGenerator g) throws IOException {
       g.writeStartObject();
       g.writeStringField("text", value);
-      g.writeNumberField("type", type);
-      g.writeNumberField("w", width);
-      g.writeNumberField("h", height);
-      g.writeNumberField("t", top);
-      g.writeNumberField("l", left);
+      g.writeNumberField("w", fix(width));
+      g.writeNumberField("h", fix(height));
+      g.writeNumberField("t", fix(top));
+      g.writeNumberField("l", fix(left));
+
+      if (type != TYPE_VERSE) {
+        g.writeNumberField("type", type);
+      }
+
       if (tag != null) {
         g.writeStringField("tag", tag);
       }
@@ -211,7 +219,7 @@ public class Render {
 
     private final Set<String> names;
 
-    private final Map<String, int[]> toc = new HashMap<>();
+    private final Map<String, Integer> toc = new HashMap<>();
 
     private String text;
     private Bible.Verse verse;
@@ -263,11 +271,8 @@ public class Render {
     }
 
     private void updateToc(Page page, Bible.Verse verse) {
-      int[] val = toc.computeIfAbsent(verse.chapter().tag(), x -> new int[]{
-        page.number,
-        page.number
-      });
-      val[1] = Math.max(page.number, val[1]);
+      toc.computeIfAbsent(verse.tag(), x -> page.number);
+      toc.computeIfAbsent(verse.chapter().book().abbr(), x -> page.number);
     }
 
     private Text transform(TextItem item, Page page, double scale) {
@@ -324,31 +329,112 @@ public class Render {
 
     Stream<Text> transform(Page page, int width) {
       double fx = (double) width / (double) page.view[2];
-      
+
       return page.text.stream()
           .map(i -> transform(i, page, fx))
           .filter(i -> i != null);
     }
   }
 
-  private static void toJson(File dst, Map<String, int[]> toc, int count) throws IOException {
+  private static void toJson(File dir, Bible.Book book) throws IOException {
+    try (Writer w = new FileWriter(new File(dir, String.format("%s.json", book.abbr())))) {
+      try (JsonGenerator g = new JsonFactory().createGenerator(w)) {
+        g.writeStartObject();
+        g.writeStringField("name", book.name());
+
+        g.writeFieldName("text");
+        g.writeStartArray();
+        for (Bible.Chapter chapter : book.chapters()) {
+          g.writeStartArray();
+          for (Bible.Verse verse : chapter.verses()) {
+            g.writeString(verse.toString());
+          }
+          g.writeEndArray();
+        }
+        g.writeEndArray();
+        g.writeEndObject();
+      }
+    }
+  }
+
+  private static void toJson(File dst, Map<String, Integer> toc, int count) throws IOException {
     try (Writer w = new FileWriter(dst)) {
       try (JsonGenerator g = new JsonFactory().createGenerator(w)) {
         g.writeStartObject();
         g.writeNumberField("count", count);
 
-        g.writeFieldName("chapters");
+        g.writeFieldName("index");
         g.writeStartObject();
-        for (Map.Entry<String, int[]> e : toc.entrySet()) {
-          g.writeFieldName(e.getKey());
-
-          int[] vals = e.getValue();
-          g.writeStartArray();
-          g.writeNumber(vals[0]);
-          g.writeNumber(vals[1]);
-          g.writeEndArray();
+        for (Map.Entry<String, Integer> e : toc.entrySet()) {
+          g.writeNumberField(e.getKey(), e.getValue());
         }
         g.writeEndObject();
+
+        g.writeEndObject();
+      }
+    }
+  }
+
+  private static void toJson(JsonGenerator g, Map<String, Integer> idx, List<Bible.Book> books) throws IOException {
+    g.writeStartObject();
+
+    for (Bible.Book book : books) {
+      g.writeFieldName(book.abbr());
+      g.writeStartArray();
+      for (Bible.Chapter chapter : book.chapters()) {
+        List<Bible.Verse> verses = chapter.verses();
+        if (verses.isEmpty()) {
+          continue;
+        }
+
+        int base = idx.get(verses.get(0).tag());
+        int[] curr = new int[]{base, 1};
+
+        g.writeStartArray();
+        for (int i = 1, n = verses.size(); i < n; i++) {
+          int page = idx.get(verses.get(i).tag());
+          if (page == curr[0]) {
+            curr[1]++;
+            continue;
+          }
+
+          g.writeNumber(curr[0] == base ? base : curr[0] - base);
+          g.writeNumber(curr[1]);
+
+          curr[0] = page;
+          curr[1] = 1;
+        }
+
+        if (curr[1] > 0) {
+          g.writeNumber(curr[0] == base ? base : curr[0] - base);
+          g.writeNumber(curr[1]);
+        }
+
+        g.writeEndArray();
+      }
+      g.writeEndArray();
+    }
+    g.writeEndObject();
+  }
+
+  private static void toJson(File dst, Map<String, Integer> idx, List<Bible.Book> books, int count) throws IOException {
+    try (Writer w = new FileWriter(dst)) {
+      try (JsonGenerator g = new JsonFactory().createGenerator(w)) {
+        g.writeStartObject();
+        g.writeNumberField("c", count);
+
+        g.writeFieldName("i");
+        toJson(g, idx, books);
+
+        g.writeFieldName("b");
+        g.writeStartArray();
+        for (Bible.Book book : books) {
+          g.writeStartArray();
+          g.writeString(book.abbr());
+          g.writeString(book.name());
+          g.writeEndArray();
+        }
+        g.writeEndArray();
 
         g.writeEndObject();
       }
@@ -387,6 +473,10 @@ public class Render {
       count++;
     }
 
-    toJson(new File(opts.destDir, "toc.json"), converter.toc, count - 1);
+    // toJson(new File(opts.destDir, "toc.json"), converter.toc, count - 1);
+    toJson(new File(opts.destDir, "toc.json"), converter.toc, books, count - 1);
+    for (Bible.Book book : books) {
+      toJson(opts.destDir, book);
+    }
   }
 }

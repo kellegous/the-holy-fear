@@ -122,11 +122,15 @@ public class CreateFear {
         String word,
         int limit,
         StringEncoder encoder,
-        List<Pair<String, String>> terms) throws EncoderException {
+        List<Pair<String, String>> terms,
+        Set<String> usedTerms) throws EncoderException {
       String encoded = encoder.encode(word);
       String lower = word.toLowerCase();
       return terms.parallelStream()
-          .filter(e -> !bannedBookNames.contains(e.getA().toLowerCase()))
+          .filter(e -> {
+            String t = e.getA().toLowerCase();
+            return !bannedBookNames.contains(t) && !usedTerms.contains(t);
+          })
           .map(e -> Pair.of(e.getA(), StringUtils.getLevenshteinDistance(encoded, e.getB())))
           .sorted((a, b) -> {
             int c = Integer.compare(a.getB(), b.getB());
@@ -153,6 +157,7 @@ public class CreateFear {
         String name,
         Random rng,
         Map<String, String> knownTerms,
+        Set<String> usedTerms,
         StringEncoder encoder,
         List<Pair<String, String>> terms) throws EncoderException {
       String[] words = name.split("\\s+");
@@ -170,8 +175,9 @@ public class CreateFear {
           continue;
         }
 
-        val = WordUtils.capitalizeFully(select(getCandidateTerms(word, 3, encoder, terms), rng));
+        val = WordUtils.capitalizeFully(select(getCandidateTerms(word, 3, encoder, terms, usedTerms), rng));
         knownTerms.put(word, val);
+        usedTerms.add(val.toLowerCase());
         res.add(val);
       }
 
@@ -191,12 +197,14 @@ public class CreateFear {
 
       Map<String, String> knownTerms = new HashMap<>();
 
+      Set<String> usedTerms = new HashSet<>();
+
       Map<String, String> res = new HashMap<>();
 
       for (Bible.Book book : bible) {
         res.put(
             book.abbr(),
-            rename(book.name(), rng, knownTerms, encoder, tokens));
+            rename(book.name(), rng, knownTerms, usedTerms, encoder, tokens));
       }
 
       return res;

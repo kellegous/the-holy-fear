@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5cfa7f0-64f7-4d9a-9209-5a04510e09ac" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/deps.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Rakefile" afterPath="$PROJECT_DIR$/Rakefile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/press/main.js" afterPath="$PROJECT_DIR$/press/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pub/debug/index.css" afterPath="$PROJECT_DIR$/pub/debug/index.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pub/debug/index.js" afterPath="$PROJECT_DIR$/pub/debug/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kellegous/holyfear/Bible.java" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/Bible.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kellegous/holyfear/CreateFear.java" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/CreateFear.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kellegous/holyfear/LocalServer.java" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/LocalServer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kellegous/holyfear/Render.java" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/Render.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/kellegous/flf/TokenizerTest.java" afterPath="$PROJECT_DIR$/test/kellegous/flf/TokenizerTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kellegous/holyfear/Tokenizer.java" afterPath="$PROJECT_DIR$/src/kellegous/holyfear/Tokenizer.java" />
     </list>
     <ignored path="holyfear.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,7 +45,7 @@
             <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/CreateFear.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="402" column="13" selection-start-line="402" selection-start-column="13" selection-end-line="402" selection-end-column="13" />
+                  <caret line="375" column="45" selection-start-line="375" selection-start-column="45" selection-end-line="375" selection-end-column="45" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -108,11 +101,11 @@
             <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/Tokenizer.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="254" column="39" selection-start-line="254" selection-start-column="39" selection-end-line="254" selection-end-column="39" />
+                  <caret line="233" column="101" selection-start-line="233" selection-start-column="101" selection-end-line="233" selection-end-column="101" />
                   <folding>
                     <element signature="imports" expanded="true" />
-                    <element signature="e#1914#1915#0" expanded="true" />
-                    <element signature="e#1940#1941#0" expanded="true" />
+                    <element signature="e#1984#1985#0" expanded="true" />
+                    <element signature="e#2010#2011#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -121,12 +114,14 @@
           <file leaf-file-name="Render.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/Render.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.3359375">
-                  <caret line="326" column="6" selection-start-line="326" selection-start-column="6" selection-end-line="326" selection-end-column="6" />
+                <state vertical-scroll-proportion="0.68817204">
+                  <caret line="205" column="6" selection-start-line="205" selection-start-column="6" selection-end-line="205" selection-end-column="6" />
                   <folding>
                     <element signature="imports" expanded="true" />
-                    <element signature="e#6584#6585#0" expanded="true" />
-                    <element signature="e#6623#6624#0" expanded="true" />
+                    <element signature="e#5437#5438#0" expanded="true" />
+                    <element signature="e#5474#5475#0" expanded="true" />
+                    <element signature="e#6731#6732#0" expanded="true" />
+                    <element signature="e#6770#6771#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -158,11 +153,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="LocalServer.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="LocalServer.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/LocalServer.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.7488839">
-                  <caret line="96" column="33" selection-start-line="96" selection-start-column="33" selection-end-line="96" selection-end-column="33" />
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="50" column="39" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -170,11 +165,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Bible.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Bible.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/Bible.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="254" column="39" selection-start-line="254" selection-start-column="39" selection-end-line="254" selection-end-column="39" />
+                <state vertical-scroll-proportion="-6.693548">
+                  <caret line="71" column="25" selection-start-line="71" selection-start-column="25" selection-end-line="71" selection-end-column="25" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#7072#7073#0" expanded="true" />
@@ -255,12 +250,12 @@
         <option value="$PROJECT_DIR$/src/kellegous/holyfear/model/WeightedToken.java" />
         <option value="$PROJECT_DIR$/src/kellegous/holyfear/web/print.mustache" />
         <option value="$PROJECT_DIR$/src/kellegous/holyfear/web/Print.java" />
-        <option value="$PROJECT_DIR$/src/kellegous/holyfear/Tokenizer.java" />
-        <option value="$PROJECT_DIR$/src/kellegous/holyfear/CreateFear.java" />
         <option value="$PROJECT_DIR$/src/kellegous/holyfear/Convert.java" />
         <option value="$PROJECT_DIR$/test/kellegous/flf/TokenizerTest.java" />
         <option value="$PROJECT_DIR$/src/kellegous/holyfear/Bible.java" />
         <option value="$PROJECT_DIR$/src/kellegous/holyfear/LocalServer.java" />
+        <option value="$PROJECT_DIR$/src/kellegous/holyfear/Tokenizer.java" />
+        <option value="$PROJECT_DIR$/src/kellegous/holyfear/CreateFear.java" />
         <option value="$PROJECT_DIR$/src/kellegous/holyfear/Render.java" />
       </list>
     </option>
@@ -274,8 +269,8 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="2556" />
-    <option name="height" value="1417" />
+    <option name="width" value="1680" />
+    <option name="height" value="1027" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -869,8 +864,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="2556" height="1417" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -879,11 +874,11 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31454006" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44258872" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21596244" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32715133" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17857143" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32672232" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1235,18 +1230,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/Tokenizer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="254" column="39" selection-start-line="254" selection-start-column="39" selection-end-line="254" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1914#1915#0" expanded="true" />
-            <element signature="e#1940#1941#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/util/Cli.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1275,47 +1258,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/CreateFear.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="402" column="13" selection-start-line="402" selection-start-column="13" selection-end-line="402" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/Bible.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="254" column="39" selection-start-line="254" selection-start-column="39" selection-end-line="254" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#7072#7073#0" expanded="true" />
-            <element signature="e#7097#7098#0" expanded="true" />
-            <element signature="e#7124#7125#0" expanded="true" />
-            <element signature="e#7188#7189#0" expanded="true" />
-            <element signature="e#9239#9240#0" expanded="true" />
-            <element signature="e#9267#9268#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/web/print.mustache">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-10.0">
           <caret line="16" column="63" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="63" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/LocalServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7488839">
-          <caret line="96" column="33" selection-start-line="96" selection-start-column="33" selection-end-line="96" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1329,14 +1276,64 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/Render.java">
+    <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/Tokenizer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3359375">
-          <caret line="326" column="6" selection-start-line="326" selection-start-column="6" selection-end-line="326" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="233" column="101" selection-start-line="233" selection-start-column="101" selection-end-line="233" selection-end-column="101" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6584#6585#0" expanded="true" />
-            <element signature="e#6623#6624#0" expanded="true" />
+            <element signature="e#1984#1985#0" expanded="true" />
+            <element signature="e#2010#2011#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/LocalServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="50" column="39" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/Bible.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.693548">
+          <caret line="71" column="25" selection-start-line="71" selection-start-column="25" selection-end-line="71" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7072#7073#0" expanded="true" />
+            <element signature="e#7097#7098#0" expanded="true" />
+            <element signature="e#7124#7125#0" expanded="true" />
+            <element signature="e#7188#7189#0" expanded="true" />
+            <element signature="e#9239#9240#0" expanded="true" />
+            <element signature="e#9267#9268#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/CreateFear.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="375" column="45" selection-start-line="375" selection-start-column="45" selection-end-line="375" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/kellegous/holyfear/Render.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.68817204">
+          <caret line="205" column="6" selection-start-line="205" selection-start-column="6" selection-end-line="205" selection-end-column="6" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5437#5438#0" expanded="true" />
+            <element signature="e#5474#5475#0" expanded="true" />
+            <element signature="e#6731#6732#0" expanded="true" />
+            <element signature="e#6770#6771#0" expanded="true" />
           </folding>
         </state>
       </provider>

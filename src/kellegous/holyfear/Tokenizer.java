@@ -30,7 +30,8 @@ public class Tokenizer {
       Pair.of(Pattern.compile("Las"), Pattern.compile("Vegas")),
       Pair.of(Pattern.compile("Las"), Pattern.compile("Angeles")),
       Pair.of(Pattern.compile("San"), Pattern.compile("Francisco")),
-      Pair.of(Pattern.compile("Dr\\."), Pattern.compile("^[A-Z].*"))
+      Pair.of(Pattern.compile("Dr\\."), Pattern.compile("^[A-Z].*")),
+      Pair.of(Pattern.compile("St\\."), Pattern.compile("^[A-Z].*"))
   );
 
   public static class Token {
