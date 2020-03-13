@@ -6,6 +6,6 @@
   "license" : "MIT",
   "repository" : "user/repo",
   "dependencies" : {
-    "minimist" : "1.2.0"
+    "minimist" : "1.2.5"
   }
 }
